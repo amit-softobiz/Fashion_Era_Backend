@@ -1,0 +1,35 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Product {
+  id: Int!
+  categories: String!
+  brand: String!
+  price: Int!
+  color: String!
+  size: Int!
+  tags: String!
+}
+
+type Query {
+  index: String!
+  products: [Product!]!
+  findProductById(productId: Int!): Product
+}
+
+type Mutation {
+  deleteProduct(productId: Int!): String!
+  addProduct(addProductArgs: AddProductArgs!): String!
+  updateProduct(productId: Int!, updateProductArgs: AddProductArgs!): String!
+}
+
+input AddProductArgs {
+  id: Int!
+  categories: String!
+  brand: String!
+  price: Int!
+  color: String!
+  size: Int!
+  tags: String!
+}
