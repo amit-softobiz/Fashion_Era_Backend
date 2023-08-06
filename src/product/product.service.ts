@@ -1,43 +1,38 @@
-import { Injectable } from "@nestjs/common";
-import { ProductEntity } from "./entity/product.entity";
-
-
+import { Model } from 'mongoose';
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Product, ProductDocument } from './schemas/product.schema';
 
 @Injectable()
-export class ProductService{
-    public productData: ProductEntity[] =[];
+export class ProductService {
+  constructor(
+    @InjectModel(Product.name) private productModel: Model<ProductDocument>,
+  ) {}
 
-    addProduct(product:ProductEntity):string{
-        this.productData.push(product);
-        return "Product added successfully...";
-    }
+  addProduct(product: Product): string {
+    const createdCat = new this.productModel(product);
+    console.log('createdCat', createdCat);
+    createdCat.save();
+    return 'Product added successfully...';
+  }
 
-    updateProduct(id:number, updateProduct:ProductEntity):string{
-        for(let x=0; x < this.productData.length; x++){
-            if(this.productData[x].id == id){
-                this.productData[x] = updateProduct;
-            }
-        }
-        return "Product updated successfully...";
-    }
+  async updateProduct(id: number, updateProduct: Product): Promise<string> {
+    const data = await this.productModel
+      .findOneAndUpdate({ id: id }, updateProduct, { new: true })
+      .exec();
+    return 'Product updated successfully...';
+  }
 
-    deleteProduct(id:number):string{
-        this.productData = this.productData.filter((product)=> product.id !== id);
-        return "product has been deleted..."
-    }
+  deleteProduct(id: number): string {
+    this.productModel.findOneAndDelete({ id }).exec();
+    return 'product has been deleted...';
+  }
 
-    findProductById(id:number):ProductEntity{
-        for(let x=0; x< this.productData.length; x++){
-            if(this.productData[x].id == id){
-                return this.productData[x];
-            }
-        }
-    }
+  findProductById(id: number): Promise<Product> {
+    return this.productModel.findOne({ id }).exec();
+  }
 
-    findAllProducts(): ProductEntity[]{
-        return this.productData;
-    }
-
-
-
+  findAllProducts(): Promise<Product[]> {
+    return this.productModel.find().exec();
+  }
 }

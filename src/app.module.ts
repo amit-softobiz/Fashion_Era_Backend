@@ -1,12 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { AppResolver } from './app.resolver';
 import { ProductModule } from './product/product.module';
-
+import { MongooseModule } from '@nestjs/mongoose';
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -17,9 +15,10 @@ import { ProductModule } from './product/product.module';
         path:join(process.cwd(), 'src/graphql.ts'),
       }
     }),
+    MongooseModule.forRoot('mongodb+srv://amitxtest:amitxtest@cluster0.3d8tyjj.mongodb.net/FashionEraDB?retryWrites=true&w=majority'),
     ProductModule
   ],
-  controllers: [AppController],
-  providers: [AppService, AppResolver],
+  controllers: [],
+  providers: [AppResolver],
 })
 export class AppModule {}

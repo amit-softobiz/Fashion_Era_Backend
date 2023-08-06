@@ -1,27 +1,25 @@
-import { Field, Int, ObjectType } from "@nestjs/graphql";
-
-
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
-export class Product{
-    @Field((type) =>Int)
-    id:number;
+export class Product {
+  @Field((type) => Int)
+  id: number;
 
-    @Field()
-    categories:string;
+  @Field()
+  categories: string;
 
-    @Field()
-    brand:string;
+  @Field()
+  brand: string;
 
-    @Field((type) =>Int)
-    price:number;
+  @Field((type) => Int)
+  price: number;
 
-    @Field()
-    color:string;
+  @Field()
+  color: string;
 
-    @Field((type) =>Int)
-    size:number;
+  @Field((type) => Int)
+  size: number;
 
-    @Field()
-    tags:string;
+  @Field()
+  tags: string;
 }
